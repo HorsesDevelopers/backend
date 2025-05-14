@@ -11,6 +11,7 @@ import org.aquasense.platform.iam.infrastructure.persistence.jpa.repositories.Ro
 import org.aquasense.platform.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -55,8 +56,25 @@ public class UserCommandServiceImpl implements UserCommandService {
         return Optional.of(ImmutablePair.of(user.get(), token));
     }
 
+    /**
+     * Handle the sign-up command
+     * <p>
+     *     This method handles the {@link SignUpCommand} command and returns the user.
+     * </p>
+     * @param command the sign-up command containing the username and password
+     * @return the created user
+     */
     @Override
     public Optional<User> handle(SignUpCommand command) {
-        throw  new UnsupportedOperationException("Not supported yet.");
+        if (userRepository.existsByUsername(command.username()))
+            throw new RuntimeException("Username already exists");
+        var roles = command.roles().stream()
+                .map(role ->
+                        roleRepository.findByName(role.getName())
+                                .orElseThrow(() -> new RuntimeException("Role name not found")))
+                .toList();
+        var user = new User(command.username(), hashingService.encode(command.password()), roles);
+        userRepository.save(user);
+        return userRepository.findByUsername(command.username());
     }
 }

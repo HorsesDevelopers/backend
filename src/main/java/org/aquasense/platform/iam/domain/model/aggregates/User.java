@@ -39,24 +39,25 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     public User() {
         this.roles = new HashSet<>();
     }
+
     public User(
             String username,
-            String password,
-            Long workerId
+            String password
+            //Long workerId,
             ) {
         this.username = username;
         this.password = password;
-        this.workerId = workerId;
+        //this.workerId = workerId;
         this.roles = new HashSet<>();
     }
 
     public User(
             String username,
             String password,
-            List<Role> roles,
-            Long workerId
+            /*Long workerId,*/
+            List<Role> roles
             ) {
-        this(username, password, workerId);
+        this(username, password);
         addRoles(roles);
     }
 

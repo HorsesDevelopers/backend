@@ -6,8 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 public record SignUpCommand(
-        String email,
+        String username,
         String password,
+        //Long workerId,
         List<Role> roles
 ) {
 }

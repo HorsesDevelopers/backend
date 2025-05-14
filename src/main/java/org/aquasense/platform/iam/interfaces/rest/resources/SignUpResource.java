@@ -4,10 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 public record SignUpResource(
-        String email,
+        String username,
         String password,
-        List<String> roles,
-        String firstName,
+        /*String workerId,*/
+        List<String> roles
+        /*String firstName,
         String lastName,
         String DNI,
         String workerCondition,
@@ -15,6 +16,6 @@ public record SignUpResource(
         String address,
         Date birthDate,
         String imgUrl,
-        String workerArea
+        String workerArea*/
 ) {
 }

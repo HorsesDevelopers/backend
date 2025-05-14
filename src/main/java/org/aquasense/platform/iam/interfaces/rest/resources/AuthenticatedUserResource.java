@@ -6,8 +6,7 @@ public record AuthenticatedUserResource(
         Long id,
         String username,
         String token,
-        List<RoleResource> role,
-        Long workerId
+        List<String> roles
 ) {
 
 }
