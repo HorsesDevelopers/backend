@@ -5,9 +5,11 @@ import org.aquasense.platform.assets.domain.model.commands.CreateSensorCommand;
 import org.aquasense.platform.assets.domain.services.SensorCommandService;
 import org.aquasense.platform.assets.domain.services.SensorQueryService;
 import org.aquasense.platform.assets.infrastructure.persistence.jpa.repository.SensorRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class SensorCommandServiceImpl  implements SensorCommandService {
     
    private final SensorRepository sensorRepository;

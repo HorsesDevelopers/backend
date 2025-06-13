@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface SensorRepository extends JpaRepository<Sensor,Long> {
     // Find all dates for a specific sensor (for dashboard)
-    List<LocalDateTime> findAllByTimeStampBetween(LocalDateTime start, LocalDateTime end);
+    List<Sensor> findAllByLocalDateTimeBetween(LocalDateTime start, LocalDateTime end);
 }
