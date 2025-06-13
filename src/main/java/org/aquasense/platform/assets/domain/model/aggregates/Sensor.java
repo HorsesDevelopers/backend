@@ -30,11 +30,13 @@ public class Sensor  extends AuditableAbstractAggregateRoot<Sensor> {
         this.oxygen_level = oxygen_level;
         this.pH_level = pH_level;
         this.water_temp_level = water_temp_level;
+        this.last_update = LocalDateTime.now();
     }
 
     public Sensor(CreateSensorCommand command) {
         this.oxygen_level = command.oxygen_level();
         this.pH_level = command.pH_level();
         this.water_temp_level = command.water_temp_level();
+        this.last_update = LocalDateTime.now();
     }
 }
