@@ -15,7 +15,6 @@ public class SensorQueryServiceImpl implements SensorQueryService {
     public SensorQueryServiceImpl(SensorRepository sensorRepository) {
         this.sensorRepository = sensorRepository;
     }
-   //comentary
     @Override
     public Optional<Sensor> handle(GetSensorByIdQuery query) {
         return this.sensorRepository.findById(query.sensorId());
