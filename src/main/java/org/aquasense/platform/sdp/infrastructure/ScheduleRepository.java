@@ -1,6 +1,6 @@
-package org.aquasense.platform.schedule.infrastructure;
+package org.aquasense.platform.sdp.infrastructure;
 
-import org.aquasense.platform.schedule.domain.model.entities.Schedule;
+import org.aquasense.platform.sdp.domain.model.entities.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
