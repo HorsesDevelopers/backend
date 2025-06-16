@@ -1,11 +1,11 @@
 package org.aquasense.platform.iam.domain.model.entities;
 
+import org.aquasense.platform.iam.domain.model.valueobjects.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
-import org.aquasense.platform.iam.domain.model.valueobjects.Roles;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class Role {
      * @return the default role
      */
     public static Role getDefaultRole() {
-        return new Role(Roles.TECHNICAL);
+        return new Role(Roles.ROLE_FISH_FARMER);
     }
 
     /**

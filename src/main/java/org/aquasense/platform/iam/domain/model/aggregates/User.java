@@ -1,13 +1,14 @@
 package org.aquasense.platform.iam.domain.model.aggregates;
 
+
+
+import org.aquasense.platform.iam.domain.model.entities.Role;
+import org.aquasense.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.aquasense.platform.iam.domain.model.entities.Role;
-import org.aquasense.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
 import java.util.HashSet;
 import java.util.List;
@@ -27,36 +28,24 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     @Size(max = 120)
     private String password;
 
-    @NotNull
-    private Long workerId;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(	name = "user_roles",
-                joinColumns = @JoinColumn(name = "user_id"),
-                inverseJoinColumns = @JoinColumn(name = "role_id"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
 
     public User() {
         this.roles = new HashSet<>();
     }
 
-    public User(
-            String username,
-            String password
-            //Long workerId,
-            ) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        //this.workerId = workerId;
         this.roles = new HashSet<>();
     }
 
-    public User(
-            String username,
-            String password,
-            /*Long workerId,*/
-            List<Role> roles
-            ) {
+    public User(String username, String password, List<Role> roles) {
         this(username, password);
         addRoles(roles);
     }
@@ -70,6 +59,13 @@ public class User extends AuditableAbstractAggregateRoot<User> {
         var validatedRoleSet = Role.validateRoleSet(roles);
         this.roles.addAll(validatedRoleSet);
         return this;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles.clear();
+        if (roles != null) {
+            this.roles.addAll(roles);
+        }
     }
 
 }

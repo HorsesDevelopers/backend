@@ -1,7 +1,8 @@
 package org.aquasense.platform.iam.interfaces.rest;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.aquasense.platform.iam.domain.services.UserCommandService;
+import org.aquasense.platform.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 import org.aquasense.platform.iam.interfaces.rest.resources.AuthenticatedUserResource;
 import org.aquasense.platform.iam.interfaces.rest.resources.SignInResource;
 import org.aquasense.platform.iam.interfaces.rest.resources.SignUpResource;
@@ -10,6 +11,7 @@ import org.aquasense.platform.iam.interfaces.rest.transform.AuthenticatedUserRes
 import org.aquasense.platform.iam.interfaces.rest.transform.SignInCommandFromResourceAssembler;
 import org.aquasense.platform.iam.interfaces.rest.transform.SignUpCommandFromResourceAssembler;
 import org.aquasense.platform.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 /**
  * AuthenticationController
@@ -34,9 +37,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Authentication", description = "Authentication Endpoints")
 public class AuthenticationController {
     private final UserCommandService userCommandService;
+    private final UserRepository userRepository;
 
-    public AuthenticationController(UserCommandService userCommandService) {
+    public AuthenticationController(UserCommandService userCommandService, UserRepository userRepository) {
         this.userCommandService = userCommandService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -67,7 +72,9 @@ public class AuthenticationController {
         if (user.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
+        // Recuperar el usuario con los roles
+        var userWithRoles = userRepository.findById(user.get().getId());
+        var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(userWithRoles.get());
         return new ResponseEntity<>(userResource, HttpStatus.CREATED);
 
     }

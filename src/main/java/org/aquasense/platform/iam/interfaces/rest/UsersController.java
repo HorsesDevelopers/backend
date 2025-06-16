@@ -1,14 +1,16 @@
 package org.aquasense.platform.iam.interfaces.rest;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
+
+
+
 import org.aquasense.platform.iam.domain.model.queries.GetAllUsersQuery;
 import org.aquasense.platform.iam.domain.model.queries.GetUserByIdQuery;
 import org.aquasense.platform.iam.domain.services.UserQueryService;
 import org.aquasense.platform.iam.interfaces.rest.resources.UserResource;
 import org.aquasense.platform.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,13 +34,13 @@ public class UsersController {
         this.userQueryService = userQueryService;
     }
 
+
     /**
      * This method returns all the users.
      * @return a list of user resources
      * @see UserResource
      */
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserResource>> getAllUsers() {
         var getAllUsersQuery = new GetAllUsersQuery();
         var users = userQueryService.handle(getAllUsersQuery);
@@ -54,7 +56,6 @@ public class UsersController {
      * @see UserResource
      */
     @GetMapping(value = "/{userId}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserResource> getUserById(@PathVariable Long userId) {
         var getUserByIdQuery = new GetUserByIdQuery(userId);
         var user = userQueryService.handle(getUserByIdQuery);

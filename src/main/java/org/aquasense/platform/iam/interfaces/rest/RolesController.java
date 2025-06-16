@@ -1,10 +1,11 @@
 package org.aquasense.platform.iam.interfaces.rest;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.aquasense.platform.iam.domain.model.queries.GetAllRolesQuery;
 import org.aquasense.platform.iam.domain.services.RoleQueryService;
 import org.aquasense.platform.iam.interfaces.rest.resources.RoleResource;
 import org.aquasense.platform.iam.interfaces.rest.transform.RoleResourceFromEntityAssembler;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

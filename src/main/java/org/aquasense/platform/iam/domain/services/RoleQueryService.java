@@ -1,5 +1,6 @@
 package org.aquasense.platform.iam.domain.services;
 
+
 import org.aquasense.platform.iam.domain.model.entities.Role;
 import org.aquasense.platform.iam.domain.model.queries.GetAllRolesQuery;
 import org.aquasense.platform.iam.domain.model.queries.GetRoleByNameQuery;
