@@ -26,7 +26,7 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
             command.mass(),
             command.foodKind(),
             command.foodWeight(),
-            command.loop(),
+            command.loopC(),
             command.sensorConditionA(),
             command.sensorConditionB(),
             command.comment()
@@ -42,7 +42,7 @@ public class ScheduleCommandServiceImpl implements ScheduleCommandService {
       throw new IllegalArgumentException("Schedule does not exist");
     var scheduleToUpdated = result.get();
     try{
-      var updatedSchedule = scheduleRepository.save(scheduleToUpdated.updatedInformation(command.name(), command.species(), command.size(), command.mass(), command.foodKind(), command.foodWeight(), command.loop(), command.sensorConditionA(), command.sensorConditionB(), command.comment()));
+      var updatedSchedule = scheduleRepository.save(scheduleToUpdated.updatedInformation(command.name(), command.species(), command.size(), command.mass(), command.foodKind(), command.foodWeight(), command.loopC(), command.sensorConditionA(), command.sensorConditionB(), command.comment()));
       return Optional.of(updatedSchedule);
     } catch (Exception e){
       throw new IllegalArgumentException("Error while updating schedule: " + e.getMessage());

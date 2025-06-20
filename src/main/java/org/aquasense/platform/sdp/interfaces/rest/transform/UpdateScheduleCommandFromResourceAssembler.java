@@ -5,6 +5,6 @@ import org.aquasense.platform.sdp.interfaces.rest.resources.UpdateScheduleResour
 
 public class UpdateScheduleCommandFromResourceAssembler {
     public static UpdateScheduleCommand toCommandFromResource(Long id, UpdateScheduleResource resource){
-        return new UpdateScheduleCommand(id,resource.name(),resource.species(),resource.size(),resource.mass(),resource.foodKind(),resource.foodWeight(),resource.loop(),resource.sensorConditionA(),resource.sensorConditionB(),resource.comment());
+        return new UpdateScheduleCommand(id,resource.name(),resource.species(),resource.size(),resource.mass(),resource.foodKind(),resource.foodWeight(),resource.loopC(),resource.sensorConditionA(),resource.sensorConditionB(),resource.comment());
     }
 }
