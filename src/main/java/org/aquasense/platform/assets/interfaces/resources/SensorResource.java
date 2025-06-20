@@ -6,5 +6,5 @@ public record  SensorResource(Long id,
                               int oxygenLevel,
                               int pHLevel,
                               int temperatureLevel,
-                              LocalDateTime last_update) {
+                              LocalDateTime lastUpdate) {
 }

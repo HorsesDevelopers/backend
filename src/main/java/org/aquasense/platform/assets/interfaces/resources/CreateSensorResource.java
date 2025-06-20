@@ -1,6 +1,6 @@
 package org.aquasense.platform.assets.interfaces.resources;
 
-public record CreateSensorResource(Long id,
+public record CreateSensorResource(
                                    int oxygenLevel,
                                    int pHLevel,
                                    int temperatureLevel) {

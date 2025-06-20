@@ -23,9 +23,9 @@ public class SensorCommandServiceImpl  implements SensorCommandService {
         var sensor = new Sensor(command);
         try {
             sensorRepository.save(sensor);
-            return Optional.of(sensor);
         } catch (Exception e) {
             throw new IllegalArgumentException("Sensor already exists");
         }
+        return Optional.of(sensor);
     }
 }

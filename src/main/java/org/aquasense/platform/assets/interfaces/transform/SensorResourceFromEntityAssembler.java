@@ -10,6 +10,6 @@ public class SensorResourceFromEntityAssembler {
         sensor.getOxygen_level(),
         sensor.getPH_level(),
         sensor.getWater_temp_level(),
-        sensor.getLast_update());
+        sensor.getLastUpdate());
     }
 }
