@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "api/v1/fish", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "api/v1/fishes", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Fish", description = "Available Fish Endpoints")
 public class FishController {
 
