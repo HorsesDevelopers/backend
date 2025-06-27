@@ -18,24 +18,23 @@ public class Sensor  extends AuditableAbstractAggregateRoot<Sensor> {
 
     private int oxygen_level;
 
-    private int pH_level;
+    //private int pH_level;
 
-    private int water_temp_level;
+    private String sensor_type;
+
+    private Float water_temp_level;
+
+    private String status;
 
     private LocalDateTime last_update;
 
     public Sensor() {}
 
-    public Sensor(int oxygen_level, int pH_level, int water_temp_level) {
-        this.oxygen_level = oxygen_level;
-        this.pH_level = pH_level;
-        this.water_temp_level = water_temp_level;
-        this.last_update = LocalDateTime.now();
-    }
 
     public Sensor(CreateSensorCommand command) {
-        this.oxygen_level = command.oxygen_level();
-        this.pH_level = command.pH_level();
+        this.oxygen_level = (command.oxygen_level() == 0) ? 1 : command.oxygen_level();
+        //this.pH_level = command.pH_level();
+        this.status = command.status();
         this.water_temp_level = command.water_temp_level();
         this.last_update = LocalDateTime.now();
     }

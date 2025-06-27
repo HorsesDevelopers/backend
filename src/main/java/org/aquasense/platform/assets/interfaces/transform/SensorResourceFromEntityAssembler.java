@@ -8,7 +8,8 @@ public class SensorResourceFromEntityAssembler {
         return new SensorResource(
         sensor.getId(),
         sensor.getOxygen_level(),
-        sensor.getPH_level(),
+        sensor.getSensor_type(),
+        sensor.getStatus(),
         sensor.getWater_temp_level(),
         sensor.getLast_update());
     }
