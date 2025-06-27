@@ -15,6 +15,12 @@ public class Pond extends AuditableAbstractAggregateRoot<Pond> {
 
     String name;
 
+    String waterType;
+
+    Double volume;
+
+    Double area;
+
     // TODO
     // scheduled feeding id
     // user id
@@ -24,6 +30,9 @@ public class Pond extends AuditableAbstractAggregateRoot<Pond> {
     public Pond(CreatePondCommand command) {
         this.ubication = command.ubication();
         this.name = command.name();
+        this.waterType = command.waterType();
+        this.volume = command.volume();
+        this.area = command.area();
     }
 
 }

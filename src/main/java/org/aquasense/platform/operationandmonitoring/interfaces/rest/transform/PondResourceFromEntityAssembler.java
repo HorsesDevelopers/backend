@@ -8,8 +8,11 @@ public class PondResourceFromEntityAssembler {
         return new PondResource(
                 pond.getId(),
                 pond.getUbication(),
-                pond.getName()
-
+                pond.getName(),
+                pond.getWaterType(),
+                pond.getVolume(),
+                pond.getArea(),
+                pond.getCreatedAt().toString()
         );
     }
 }
