@@ -8,9 +8,9 @@ public class FishResourceFromEntityAssembler {
         return new FishResource(
                 fish.getId(),
                 fish.getType(),
-                fish.getWeight(),
-                fish.getLength(),
-                fish.getAge()
+                fish.getQuantity(),
+                fish.getPond() != null ? fish.getPond().getId() : null,
+                fish.getCreatedAt().toString()
         );
     }
 }
