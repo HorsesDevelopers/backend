@@ -18,7 +18,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/Api/Schedule")
+@RequestMapping("/api/v1/schedules")
 public class ScheduleController {
     private final ScheduleCommandService scheduleCommandService;
     private final ScheduleQueryService scheduleQueryService;
