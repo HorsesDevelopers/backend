@@ -7,9 +7,8 @@ public class CreateFishCommandFromResourceAssembler {
     public static CreateFishCommand toCommandFromResource(CreateFishResource resource) {
         return new CreateFishCommand(
                 resource.type(),
-                resource.weight(),
-                resource.length(),
-                resource.age()
+                resource.quantity(),
+                resource.pondId()
         );
     }
 }

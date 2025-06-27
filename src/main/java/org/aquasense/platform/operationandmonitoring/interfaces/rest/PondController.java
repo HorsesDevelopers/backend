@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.aquasense.platform.operationandmonitoring.domain.model.queries.GetAllPondsQuery;
+import org.aquasense.platform.operationandmonitoring.domain.model.queries.GetPondByIdQuery;
 import org.aquasense.platform.operationandmonitoring.domain.services.PondCommandService;
 import org.aquasense.platform.operationandmonitoring.domain.services.PondQueryService;
 import org.aquasense.platform.operationandmonitoring.interfaces.rest.resources.CreatePondResource;
@@ -43,6 +44,19 @@ public class PondController {
                 .map(PondResourceFromEntityAssembler::toResourceFromEntity)
                 .toList();
         return ResponseEntity.ok(pondsResource);
+    }
+
+    @GetMapping("/{pondId}")
+    @Operation(summary = "Get Pond by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Pond Found"),
+            @ApiResponse(responseCode = "404", description = "Pond Not Found"),
+    })
+    public ResponseEntity<PondResource> getPondById(@PathVariable("pondId") Long pondId) {
+        var pond = pondQueryService.handle(new GetPondByIdQuery(pondId));
+        if (pond.isEmpty()) return ResponseEntity.notFound().build();
+        var pondResource = PondResourceFromEntityAssembler.toResourceFromEntity(pond.get());
+        return ResponseEntity.ok(pondResource);
     }
 
     @PostMapping

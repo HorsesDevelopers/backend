@@ -7,7 +7,10 @@ public class CreatePondCommandFromResourceAssembler {
     public static CreatePondCommand toCommandFromResource(CreatePondResource resource) {
         return new CreatePondCommand(
                 resource.ubication(),
-                resource.name()
+                resource.name(),
+                resource.waterType(),
+                resource.volume(),
+                resource.area()
         );
     }
 }

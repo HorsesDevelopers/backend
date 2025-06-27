@@ -4,6 +4,7 @@ import org.aquasense.platform.operationandmonitoring.domain.model.aggregates.Fis
 import org.aquasense.platform.operationandmonitoring.domain.model.commands.CreateFishCommand;
 import org.aquasense.platform.operationandmonitoring.domain.services.FishCommandService;
 import org.aquasense.platform.operationandmonitoring.infrastructure.persistence.jpa.repositories.FishRepository;
+import org.aquasense.platform.operationandmonitoring.infrastructure.persistence.jpa.repositories.PondRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,16 +13,25 @@ import java.util.Optional;
 public class FishCommandServiceImpl implements FishCommandService {
 
     private final FishRepository fishRepository;
+    private final PondRepository pondRepository;
 
-    public FishCommandServiceImpl(FishRepository fishRepository) {
+    public FishCommandServiceImpl(FishRepository fishRepository, PondRepository pondRepository) {
         this.fishRepository = fishRepository;
+        this.pondRepository = pondRepository;
     }
 
 
     @Override
     public Optional<Fish> handle(CreateFishCommand command) {
 
-        var fish = new Fish(command);
+        var pondOptional = pondRepository.findById(command.pondId());
+        if (pondOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        var pond = pondOptional.get();
+
+        var fish = new Fish(command, pond);
+
 
         fishRepository.save(fish);
 

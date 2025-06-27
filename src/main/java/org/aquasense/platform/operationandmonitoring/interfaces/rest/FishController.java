@@ -33,7 +33,7 @@ public class FishController {
 
 
     @GetMapping
-    @Operation(summary = "Get All Ponds")
+    @Operation(summary = "Get All Fishes")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fishes Found"),
             @ApiResponse(responseCode = "400", description = "Fishes Not Found"),
