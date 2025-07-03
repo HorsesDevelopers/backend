@@ -3,6 +3,7 @@ package org.aquasense.platform.assets.interfaces;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.aquasense.platform.assets.domain.model.queries.GetAllSensorsQuery;
+import org.aquasense.platform.assets.domain.model.queries.GetSensorsByDateRange;
 import org.aquasense.platform.assets.domain.services.SensorCommandService;
 import org.aquasense.platform.assets.domain.services.SensorQueryService;
 import org.aquasense.platform.assets.interfaces.resources.SensorResource;
@@ -10,8 +11,10 @@ import org.aquasense.platform.assets.interfaces.transform.SensorResourceFromEnti
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -31,6 +34,16 @@ public class SensorController {
     public ResponseEntity<List<SensorResource>> getAllSensors() {
         var sensors = sensorQueryService.handle(new GetAllSensorsQuery());
         var sensorResources = sensors.stream().map(SensorResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(sensorResources);
+    }
+
+    @GetMapping("/by-date")
+    public ResponseEntity<List<SensorResource>> getSensorsByDateRange(@RequestParam LocalDateTime start, LocalDateTime end){
+        var getSensorsByDateRange = new GetSensorsByDateRange(start, end);
+        var optionalSensorsRange = this.sensorQueryService.handle(getSensorsByDateRange);
+        var sensorResources = optionalSensorsRange.stream()
+                .map(SensorResourceFromEntityAssembler::toResourceFromEntity)
+                .toList();
         return ResponseEntity.ok(sensorResources);
     }
 }

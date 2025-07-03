@@ -3,6 +3,7 @@ package org.aquasense.platform.assets.application.queryservices;
 import org.aquasense.platform.assets.domain.model.aggregates.Sensor;
 import org.aquasense.platform.assets.domain.model.queries.GetAllSensorsQuery;
 import org.aquasense.platform.assets.domain.model.queries.GetSensorByIdQuery;
+import org.aquasense.platform.assets.domain.model.queries.GetSensorsByDateRange;
 import org.aquasense.platform.assets.domain.services.SensorQueryService;
 import org.aquasense.platform.assets.infrastructure.persistence.jpa.repository.SensorRepository;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,10 @@ public class SensorQueryServiceImpl implements SensorQueryService {
     @Override
     public List<Sensor> handle(GetAllSensorsQuery query) {
         return this.sensorRepository.findAll();
+    }
+
+    @Override
+    public List<Sensor> handle(GetSensorsByDateRange query) {
+        return this.sensorRepository.findAllByDateRangeBetween(query.start(), query.end());
     }
 }
