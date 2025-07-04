@@ -12,6 +12,7 @@ import org.aquasense.platform.oam.interfaces.rest.resources.CreatePondResource;
 import org.aquasense.platform.oam.interfaces.rest.resources.PondResource;
 import org.aquasense.platform.oam.interfaces.rest.transform.CreatePondCommandFromResourceAssembler;
 import org.aquasense.platform.oam.interfaces.rest.transform.PondResourceFromEntityAssembler;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +22,12 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "api/v1/ponds", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Ponds", description = "Available Pond Endpoints")
-public class PondController {
+public class PondsController {
 
     private final PondCommandService pondCommandService;
     private final PondQueryService pondQueryService;
 
-    public PondController(PondCommandService pondCommandService, PondQueryService pondQueryService) {
+    public PondsController(PondCommandService pondCommandService, PondQueryService pondQueryService) {
         this.pondCommandService = pondCommandService;
         this.pondQueryService = pondQueryService;
     }
@@ -61,11 +62,15 @@ public class PondController {
 
     @PostMapping
     @Operation(summary = "Create Pond")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Pond Created"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+    })
     public ResponseEntity<PondResource> createPond(@RequestBody CreatePondResource resource) {
         var createPondCommand = CreatePondCommandFromResourceAssembler.toCommandFromResource(resource);
         var pond = pondCommandService.handle(createPondCommand);
         if (pond.isEmpty()) return ResponseEntity.badRequest().build();
         var pondResource = PondResourceFromEntityAssembler.toResourceFromEntity(pond.get());
-        return ResponseEntity.ok(pondResource);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pondResource);
     }
 }

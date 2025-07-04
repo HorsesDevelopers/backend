@@ -11,22 +11,26 @@ import org.aquasense.platform.oam.interfaces.rest.resources.CreateNotificationRe
 import org.aquasense.platform.oam.interfaces.rest.resources.NotificationResource;
 import org.aquasense.platform.oam.interfaces.rest.transform.CreateNotificationCommandFromResourceAssembler;
 import org.aquasense.platform.oam.interfaces.rest.transform.NotificationResourceFromEntityAssembler;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller for managing notifications.
+ */
 @RestController
 @RequestMapping(value = "api/v1/notifications", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Notifications", description = "Available Notification Endpoints")
-public class NotificationController {
+public class NotificationsController {
 
     private final NotificationCommandService notificationCommandService;
     private final NotificationQueryService notificationQueryService;
 
 
-    public NotificationController(NotificationCommandService notificationCommandService, NotificationQueryService notificationQueryService) {
+    public NotificationsController(NotificationCommandService notificationCommandService, NotificationQueryService notificationQueryService) {
         this.notificationCommandService = notificationCommandService;
         this.notificationQueryService = notificationQueryService;
     }
@@ -46,14 +50,22 @@ public class NotificationController {
         return ResponseEntity.ok(notificationsResource);
     }
 
+    /**
+     * Create a new notification
+     * @param resource The {@link CreateNotificationResource} instance
+     * @return A {@link NotificationResource} resource for the created notification, or bad request if the notification could not be created.
+     */
     @PostMapping
     @Operation(summary = "Create Notification")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Notification Created"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+    })
     public ResponseEntity<NotificationResource> createNotification(@RequestBody CreateNotificationResource resource) {
         var createNotificationCommand = CreateNotificationCommandFromResourceAssembler.toCommandFromResource(resource);
         var notification = notificationCommandService.handle(createNotificationCommand);
         if (notification.isEmpty()) return ResponseEntity.badRequest().build();
         var notificationResource = NotificationResourceFromEntityAssembler.toResourceFromEntity(notification.get());
-        return ResponseEntity.ok(notificationResource);
-
+        return ResponseEntity.status(HttpStatus.CREATED).body(notificationResource);
     }
 }
