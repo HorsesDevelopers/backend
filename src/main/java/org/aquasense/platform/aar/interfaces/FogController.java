@@ -22,8 +22,9 @@ public class FogController {
 
     @PostMapping
     public ResponseEntity<String> processDeviceData(@RequestBody List<DeviceDataResource> deviceDataResources) {
-        // Aquí irían las operaciones necesarias con deviceId, type y value
-        // Por ejemplo, guardar en base de datos, procesar, etc.
+
+        // Here would go the necessary operations with deviceId, type and value
+        // For example, saving to database, processing, etc.
         int processedCount = 0;
 
         for (DeviceDataResource data : deviceDataResources) {
@@ -31,17 +32,25 @@ public class FogController {
             System.out.println("Type: " + data.getSensor_type());
             System.out.println("Value: " + data.getValue());
             System.out.println("Timestamp: " + data.getTimestamp());
-            // Procesamiento de cada registro
+            // Processing each record
 
             try {
                 // Convert device data to sensor command based on sensor type
                 int oxygenLevel = 0;
                 Float waterTempLevel = 0.0f;
 
-                if ("oxygen".equalsIgnoreCase(data.getSensor_type())) {
-                    oxygenLevel = data.getValue() != null ? data.getValue().intValue() : 0;
-                } else if ("temperature".equalsIgnoreCase(data.getSensor_type())) {
-                    waterTempLevel = data.getValue();
+                if ("oxygen".equalsIgnoreCase(data.getSensor_type()) && data.getValue() != null) {
+                    try {
+                        oxygenLevel = Integer.parseInt(data.getValue());
+                    } catch (NumberFormatException e) {
+                        System.err.println("Invalid oxygen value format: " + data.getValue());
+                    }
+                } else if ("temperature".equalsIgnoreCase(data.getSensor_type()) && data.getValue() != null) {
+                    try {
+                        waterTempLevel = Float.parseFloat(data.getValue());
+                    } catch (NumberFormatException e) {
+                        System.err.println("Invalid temperature value format: " + data.getValue());
+                    }
                 }
 
                 CreateSensorCommand command = new CreateSensorCommand(
@@ -59,15 +68,15 @@ public class FogController {
                 System.err.println("Error saving sensor data: " + e.getMessage());
             }
         }
-        // Aquí podrías llamar a un servicio para procesar los datos
-        // Por ejemplo, si tienes un servicio llamado deviceDataService:
+        // Here you could call a service to process the data
+        // For example, if you have a service called deviceDataService:
         // deviceDataService.processDeviceData(deviceDataResource.getDeviceId(), deviceDataResource.getType(), deviceDataResource.getValue());
 
         System.out.println("Received Device Data: " + deviceDataResources);
 
 
 
-        // Retornamos una respuesta exitosa
+        // Return a response indicating success
         return ResponseEntity.ok("Successfully processed " + processedCount + " of " +
                 deviceDataResources.size() + " records");
     }

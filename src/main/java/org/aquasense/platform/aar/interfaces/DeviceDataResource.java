@@ -11,7 +11,7 @@ public class DeviceDataResource {
 
     private String sensor_type;
 
-    private Float value;
+    private String value;
 
     private String timestamp;
 
