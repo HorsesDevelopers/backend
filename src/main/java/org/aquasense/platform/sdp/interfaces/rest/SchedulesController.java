@@ -19,16 +19,16 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/schedules")
-public class ScheduleController {
+public class SchedulesController {
     private final ScheduleCommandService scheduleCommandService;
     private final ScheduleQueryService scheduleQueryService;
 
-    public ScheduleController(ScheduleCommandService scheduleCommandService, ScheduleQueryService scheduleQueryService){
+    public SchedulesController(ScheduleCommandService scheduleCommandService, ScheduleQueryService scheduleQueryService){
         this.scheduleCommandService = scheduleCommandService;
         this.scheduleQueryService = scheduleQueryService;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<ScheduleResource> createSchedule(@RequestBody CreateScheduleResource createScheduleResource){
         var createScheduleCommand = CreateScheduleCommandFromResourceAssembler.toCommandFromResource(createScheduleResource);
         var scheduleId = scheduleCommandService.handle(createScheduleCommand);

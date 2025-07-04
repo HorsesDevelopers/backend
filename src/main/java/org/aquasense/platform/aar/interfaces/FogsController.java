@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/sync")
-public class FogController {
+@RequestMapping("api/v1/fogs")
+public class FogsController {
 
     private final SensorCommandService sensorCommandService;
 
-    public FogController(SensorCommandService sensorCommandService) {
+    public FogsController(SensorCommandService sensorCommandService) {
         this.sensorCommandService = sensorCommandService;
     }
 

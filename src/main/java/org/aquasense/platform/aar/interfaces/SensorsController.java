@@ -17,12 +17,12 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/sensors")
 @Tag(name = "Sensors", description = "Operations related to sensors")
-public class SensorController {
+public class SensorsController {
 
     private final SensorCommandService sensorCommandService;
     private final SensorQueryService sensorQueryService;
 
-    public SensorController(SensorCommandService sensorCommandService, SensorQueryService sensorQueryService) {
+    public SensorsController(SensorCommandService sensorCommandService, SensorQueryService sensorQueryService) {
         this.sensorCommandService = sensorCommandService;
         this.sensorQueryService = sensorQueryService;
     }
