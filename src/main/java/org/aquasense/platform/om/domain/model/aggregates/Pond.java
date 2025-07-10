@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.aquasense.platform.om.domain.model.commands.CreatePondCommand;
 import org.aquasense.platform.om.domain.model.entities.Fish;
+import org.aquasense.platform.om.domain.model.entities.PondRecord;
 import org.aquasense.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
 import java.util.ArrayList;
@@ -16,6 +17,9 @@ import java.util.List;
 @Getter
 @Setter
 public class Pond extends AuditableAbstractAggregateRoot<Pond> {
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PondRecord> pondRecords = new ArrayList<>();
 
     String ubication;
 
@@ -35,7 +39,13 @@ public class Pond extends AuditableAbstractAggregateRoot<Pond> {
     // scheduled feeding id
     // user id
 
-    public Pond() {}
+    public Pond() {
+        this.ubication = "";
+        this.name = "Pond without register";
+        this.waterType = "";
+        this.volume = 0.0;
+        this.area = 0.0;
+    }
 
     public Pond(CreatePondCommand command) {
         this.ubication = command.ubication();
@@ -45,4 +55,8 @@ public class Pond extends AuditableAbstractAggregateRoot<Pond> {
         this.area = command.area();
     }
 
+    public void addPondRecord(PondRecord pondRecord) {
+        pondRecords.add(pondRecord);
+        pondRecord.setPond(this);
+    }
 }
