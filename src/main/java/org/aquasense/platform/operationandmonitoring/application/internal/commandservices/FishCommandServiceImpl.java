@@ -26,7 +26,7 @@ public class FishCommandServiceImpl implements FishCommandService {
 
         var pondOptional = pondRepository.findById(command.pondId());
         if (pondOptional.isEmpty()) {
-            return Optional.empty();
+            throw new IllegalArgumentException("pondId not found");
         }
         var pond = pondOptional.get();
 

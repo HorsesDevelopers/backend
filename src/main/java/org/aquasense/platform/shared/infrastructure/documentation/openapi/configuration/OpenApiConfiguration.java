@@ -7,8 +7,11 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class OpenApiConfiguration {
@@ -28,6 +31,12 @@ public class OpenApiConfiguration {
                         .description("AquaSense github page")
                         .url("https://github.com/HorsesDevelopers/backend"));
         // Add security scheme
+
+        openApi.servers(List.of(
+           new Server()
+                   .url("https://backend-production-5e9e.up.railway.app")
+                   .description("Servidor de Producción")
+        ));
 
         final String securitySchemeName = "bearerAuth";
 
