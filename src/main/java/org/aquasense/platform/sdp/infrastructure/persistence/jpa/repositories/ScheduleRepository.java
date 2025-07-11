@@ -1,4 +1,4 @@
-package org.aquasense.platform.sdp.infrastructure;
+package org.aquasense.platform.sdp.infrastructure.persistence.jpa.repositories;
 
 import org.aquasense.platform.sdp.domain.model.aggregates.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;

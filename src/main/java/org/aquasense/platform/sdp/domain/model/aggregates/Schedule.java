@@ -4,7 +4,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.aquasense.platform.sdp.domain.model.commands.CreateScheduleCommand;
+import org.aquasense.platform.sdp.domain.model.valueobjects.OpenDuration;
 import org.aquasense.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -14,52 +19,19 @@ import org.aquasense.platform.shared.domain.model.aggregates.AuditableAbstractAg
 public class Schedule extends AuditableAbstractAggregateRoot<Schedule> {
 
   private String name;
-
   private Long pondId;
 
-  private String species;
+  private LocalDate day;
+  private LocalTime hour;
 
-  private int size;
+  private OpenDuration duration;
 
-  private int mass;
-
-  private String foodKind;
-
-  private int foodWeight;
-
-  private int loopC;
-
-  private String sensorConditionA;
-
-  private String sensorConditionB;
-
-  private String comment;
-
-  public Schedule(String name, String species, int size, int mass, String foodKind, int foodWeight, int loopC, String sensorConditionA, String sensorConditionB, String comment) {
-    this.name = name;
-    this.species = species;
-    this.size = size;
-    this.mass = mass;
-    this.foodKind = foodKind;
-    this.foodWeight = foodWeight;
-    this.loopC = loopC;
-    this.sensorConditionA = sensorConditionA;
-    this.sensorConditionB = sensorConditionB;
-    this.comment = comment;
-  }
-
-  public Schedule updatedInformation(String name, String species, int size, int mass, String foodKind, int foodWeight, int loopC, String sensorConditionA, String sensorConditionB, String comment){
-    this.name = name;
-    this.species = species;
-    this.size = size;
-    this.mass = mass;
-    this.foodKind = foodKind;
-    this.foodWeight = foodWeight;
-    this.loopC = loopC;
-    this.sensorConditionA = sensorConditionA;
-    this.sensorConditionB = sensorConditionB;
-    this.comment = comment;
-    return this;
+  public Schedule(CreateScheduleCommand command) {
+    this.name = command.name();
+    this.pondId = command.pondId();
+    this.day = command.day();
+    this.hour = command.hour();
+    this.duration = command.duration();
   }
 
 }
