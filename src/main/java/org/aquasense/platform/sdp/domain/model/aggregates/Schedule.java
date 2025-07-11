@@ -21,6 +21,8 @@ public class Schedule extends AuditableAbstractAggregateRoot<Schedule> {
 
   private int mass;
 
+  private String species;
+
   private String foodKind;
 
   private int foodWeight;
