@@ -64,17 +64,17 @@ public class SchedulesController {
         return ResponseEntity.ok(scheduleResource);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ScheduleResource> updateSchedule(@PathVariable Long id, @RequestBody UpdateScheduleResource updateScheduleResource){
-        var updateScheduleCommand = UpdateScheduleCommandFromResourceAssembler.toCommandFromResource(id,updateScheduleResource);
-        var updatedSchedule = scheduleCommandService.handle(updateScheduleCommand);
-
-        if(updatedSchedule.isEmpty()){
-            return ResponseEntity.badRequest().build();
-        }
-        var scheduleResource = ScheduleResourceFromEntityAssembler.toResourceFromEntity(updatedSchedule.get());
-        return ResponseEntity.ok(scheduleResource);
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<ScheduleResource> updateSchedule(@PathVariable Long id, @RequestBody UpdateScheduleResource updateScheduleResource){
+//        var updateScheduleCommand = UpdateScheduleCommandFromResourceAssembler.toCommandFromResource(id,updateScheduleResource);
+//        var updatedSchedule = scheduleCommandService.handle(updateScheduleCommand);
+//
+//        if(updatedSchedule.isEmpty()){
+//            return ResponseEntity.badRequest().build();
+//        }
+//        var scheduleResource = ScheduleResourceFromEntityAssembler.toResourceFromEntity(updatedSchedule.get());
+//        return ResponseEntity.ok(scheduleResource);
+//    }
 
 
 
