@@ -1,4 +1,4 @@
-package org.aquasense.platform.om.application.internal;
+package org.aquasense.platform.om.application.internal.outboundservices;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -12,8 +12,6 @@ public class SensorDataProducer {
         this.messagingTemplate = messagingTemplate;
     }
 
-    // Este método puede ser llamado desde cualquier parte de tu aplicación
-    // para enviar datos a los clientes suscritos
     public void publishSensorData(Object sensorData) {
         messagingTemplate.convertAndSend("/topic/sensors", sensorData);
     }

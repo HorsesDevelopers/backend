@@ -8,7 +8,8 @@ public class NotificationResourceFromEntityAssembler {
         return new NotificationResource(
                 notification.getId(),
                 notification.getTitle(),
-                notification.getDescription()
+                notification.getDescription(),
+                notification.getPondId()
                 );
     }
 }

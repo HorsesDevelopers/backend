@@ -1,4 +1,4 @@
-package org.aquasense.platform.om.interfaces.websocket;
+package org.aquasense.platform.om.interfaces.websocket.data;
 
 import lombok.Data;
 

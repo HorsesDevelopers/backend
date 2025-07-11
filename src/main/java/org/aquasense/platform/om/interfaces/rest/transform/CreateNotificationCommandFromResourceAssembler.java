@@ -7,7 +7,8 @@ public class CreateNotificationCommandFromResourceAssembler {
     public static CreateNotificationCommand toCommandFromResource(CreateNotificationResource resource) {
         return new CreateNotificationCommand(
                 resource.title(),
-                resource.description()
+                resource.description(),
+                resource.pondId()
         );
     }
 }

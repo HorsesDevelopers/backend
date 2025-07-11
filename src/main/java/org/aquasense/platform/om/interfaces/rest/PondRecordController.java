@@ -4,14 +4,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.aquasense.platform.om.application.internal.outboundservices.SensorDataProducer;
 import org.aquasense.platform.om.domain.services.PondRecordCommandService;
 import org.aquasense.platform.om.interfaces.rest.resources.PondRecordResource;
 import org.aquasense.platform.om.interfaces.rest.resources.ReceivePondRecordCommandResource;
 import org.aquasense.platform.om.interfaces.rest.transform.PondRecordResourceFromEntityAssembler;
 import org.aquasense.platform.om.interfaces.rest.transform.ReceivePondRecordCommandFromResourceAssembler;
+import org.aquasense.platform.om.interfaces.websocket.data.SensorData;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class PondRecordController {
 
     private final PondRecordCommandService pondRecordCommandService;
-    private final SimpMessagingTemplate messagingTemplate;
+    private final SensorDataProducer sensorDataProducer;
 
-    public PondRecordController(PondRecordCommandService pondRecordCommandService, SimpMessagingTemplate messagingTemplate) {
+    public PondRecordController(PondRecordCommandService pondRecordCommandService, SensorDataProducer sensorDataProducer) {
         this.pondRecordCommandService = pondRecordCommandService;
-        this.messagingTemplate = messagingTemplate;
+        this.sensorDataProducer = sensorDataProducer;
     }
 
 
@@ -44,7 +45,13 @@ public class PondRecordController {
             return ResponseEntity.badRequest().build();
         }
         var pondRecordResource = PondRecordResourceFromEntityAssembler.toResourceFromEntity(pondRecord.get());
-        messagingTemplate.convertAndSend("/topic/pond-records", pondRecord.get());
+        SensorData sensorData = new SensorData();
+        sensorData.setPondId(command.pondId());
+        sensorData.setSensorType(command.recordType());
+        sensorData.setValue(command.value());
+
+        sensorDataProducer.publishSensorData(sensorData);
+
         return ResponseEntity.status(201).body(pondRecordResource);
     }
 }

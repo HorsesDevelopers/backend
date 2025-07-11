@@ -2,9 +2,11 @@ package org.aquasense.platform.om.application.internal.commandservices;
 
 import org.aquasense.platform.om.application.internal.outboundservices.ExternalAROMService;
 import org.aquasense.platform.om.domain.model.aggregates.Pond;
+import org.aquasense.platform.om.domain.model.commands.CreateNotificationCommand;
 import org.aquasense.platform.om.domain.model.commands.ReceivePondRecordCommand;
 import org.aquasense.platform.om.domain.model.entities.PondRecord;
 import org.aquasense.platform.om.domain.model.valueobjects.RecordValue;
+import org.aquasense.platform.om.domain.services.NotificationCommandService;
 import org.aquasense.platform.om.domain.services.PondRecordCommandService;
 import org.aquasense.platform.om.infrastructure.persistence.jpa.repositories.PondRecordRepository;
 import org.aquasense.platform.om.infrastructure.persistence.jpa.repositories.PondRepository;
@@ -18,11 +20,13 @@ public class PondRecordCommandServiceImpl implements PondRecordCommandService {
     private final PondRecordRepository pondRecordRepository;
     private final ExternalAROMService externalAROMService;
     private final PondRepository pondRepository;
+    private final NotificationCommandService notificationCommandService;
 
-    public PondRecordCommandServiceImpl(PondRecordRepository pondRecordRepository, ExternalAROMService externalAROMService, PondRepository pondRepository) {
+    public PondRecordCommandServiceImpl(PondRecordRepository pondRecordRepository, ExternalAROMService externalAROMService, PondRepository pondRepository, NotificationCommandService notificationCommandService) {
         this.pondRecordRepository = pondRecordRepository;
         this.externalAROMService = externalAROMService;
         this.pondRepository = pondRepository;
+        this.notificationCommandService = notificationCommandService;
     }
 
     @Override
@@ -48,6 +52,7 @@ public class PondRecordCommandServiceImpl implements PondRecordCommandService {
             pondRecord.addValue(recordValue);
 
             pondRepository.save(pond);
+            checkThresholdAndNotify(command, command.value());
             return Optional.of(pondRecord);
         } else {
             sensorId = externalAROMService.getSensorIdByPondIdAndType(command.pondId(), command.recordType());
@@ -56,10 +61,44 @@ public class PondRecordCommandServiceImpl implements PondRecordCommandService {
                 PondRecord pondRecord = pondRecordOpt.get();
                 pondRecord.addValue(recordValue);
                 pondRecordRepository.save(pondRecord);
+                checkThresholdAndNotify(command, command.value());
                 return Optional.of(pondRecord);
             } else {
                 return Optional.empty();
             }
         }
     }
+
+    private void checkThresholdAndNotify(ReceivePondRecordCommand command, float value) {
+        String type = command.recordType();
+        boolean isDanger = false;
+        String message = "";
+
+        switch (type) {
+            case "Temp":
+                if (value < 15.0f || value > 32.0f) {
+                    isDanger = true;
+                    message = "Temperatura peligrosa para peces: " + value + "°C";
+                }
+                break;
+            case "pH":
+                if (value < 6.5f || value > 8.5f) {
+                    isDanger = true;
+                    message = "pH peligroso para peces: " + value;
+                }
+                break;
+            case "Turbidity":
+                if (value > 50.0f) {
+                    isDanger = true;
+                    message = "Turbidez peligrosa para peces: " + value + " NTU";
+                }
+                break;
+        }
+
+        if (isDanger) {
+            CreateNotificationCommand notificationCommand = new CreateNotificationCommand("Peligro", message, command.pondId());
+            notificationCommandService.handle(notificationCommand);
+        }
+    }
 }
+

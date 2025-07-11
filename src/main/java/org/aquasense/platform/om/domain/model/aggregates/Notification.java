@@ -14,9 +14,7 @@ public class Notification extends AuditableAbstractAggregateRoot<Notification> {
 
     String title;
     String description;
-
-    // TODO
-    // PondId
+    Long pondId;
 
     public Notification() {
     }
@@ -24,5 +22,6 @@ public class Notification extends AuditableAbstractAggregateRoot<Notification> {
     public Notification(CreateNotificationCommand command) {
         this.title = command.title();
         this.description = command.description();
+        this.pondId = command.pondId();
     }
 }
