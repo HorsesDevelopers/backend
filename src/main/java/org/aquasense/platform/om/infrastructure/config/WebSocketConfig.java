@@ -18,7 +18,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
                 .setAllowedOrigins("http://127.0.0.1:5500",
-                        "http://localhost:4200"
+                        "http://localhost:4200",
+                        "https://aquasensedev.netlify.app"
                 )
                 .withSockJS()
                 .setClientLibraryUrl("https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js")
@@ -26,7 +27,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
         registry.addEndpoint("/ws")
                 .setAllowedOrigins("http://127.0.0.1:5500",
-                        "http://localhost:4200"
+                        "http://localhost:4200",
+                        "https://aquasensedev.netlify.app"
                 );
     }
 }
