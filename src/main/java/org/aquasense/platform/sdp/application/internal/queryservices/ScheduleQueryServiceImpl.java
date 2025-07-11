@@ -4,7 +4,7 @@ import org.aquasense.platform.sdp.domain.model.aggregates.Schedule;
 import org.aquasense.platform.sdp.domain.model.queries.GetAllSchedulesQuery;
 import org.aquasense.platform.sdp.domain.model.queries.GetScheduleByIdQuery;
 import org.aquasense.platform.sdp.domain.services.ScheduleQueryService;
-import org.aquasense.platform.sdp.infrastructure.ScheduleRepository;
+import org.aquasense.platform.sdp.infrastructure.persistence.jpa.repositories.ScheduleRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

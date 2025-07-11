@@ -5,6 +5,12 @@ import org.aquasense.platform.sdp.interfaces.rest.resources.CreateScheduleResour
 
 public class CreateScheduleCommandFromResourceAssembler {
     public static CreateScheduleCommand toCommandFromResource(CreateScheduleResource resource){
-        return new CreateScheduleCommand(resource.name(),resource.species(),resource.size(),resource.mass(),resource.foodKind(),resource.foodWeight(),resource.loopC(),resource.sensorConditionA(),resource.sensorConditionB(),resource.comment());
+        return new CreateScheduleCommand(
+                resource.name(),
+                resource.pondId(),
+                resource.day(),
+                resource.hour(),
+                resource.duration()
+        );
     }
 }
