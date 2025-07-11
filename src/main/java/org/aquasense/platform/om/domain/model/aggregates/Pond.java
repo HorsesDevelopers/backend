@@ -57,6 +57,15 @@ public class Pond extends AuditableAbstractAggregateRoot<Pond> {
         this.area = command.area();
     }
 
+    public Pond updateInformation(String ubication, String name, String waterType, Double volume, Double area) {
+        this.ubication = ubication;
+        this.name = name;
+        this.waterType = waterType;
+        this.volume = volume;
+        this.area = area;
+        return this;
+    }
+
     public void addPondRecord(PondRecord pondRecord) {
         pondRecords.add(pondRecord);
         pondRecord.setPond(this);

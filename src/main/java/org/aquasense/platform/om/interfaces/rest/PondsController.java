@@ -10,8 +10,10 @@ import org.aquasense.platform.om.domain.services.PondCommandService;
 import org.aquasense.platform.om.domain.services.PondQueryService;
 import org.aquasense.platform.om.interfaces.rest.resources.CreatePondResource;
 import org.aquasense.platform.om.interfaces.rest.resources.PondResource;
+import org.aquasense.platform.om.interfaces.rest.resources.UpdatePondResource;
 import org.aquasense.platform.om.interfaces.rest.transform.CreatePondCommandFromResourceAssembler;
 import org.aquasense.platform.om.interfaces.rest.transform.PondResourceFromEntityAssembler;
+import org.aquasense.platform.om.interfaces.rest.transform.UpdatePondCommandFromResourceAssembler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -72,5 +74,18 @@ public class PondsController {
         if (pond.isEmpty()) return ResponseEntity.badRequest().build();
         var pondResource = PondResourceFromEntityAssembler.toResourceFromEntity(pond.get());
         return ResponseEntity.status(HttpStatus.CREATED).body(pondResource);
+    }
+
+    @PutMapping("/{pondId}")
+    @Operation(summary = "Update Pond by ID")
+    public ResponseEntity<PondResource> updatePond(@PathVariable Long pondId, @RequestBody UpdatePondResource resource) {
+        var updatePondCommand = UpdatePondCommandFromResourceAssembler.toCommandFromResource(pondId, resource);
+        var updatedPond = pondCommandService.handle(updatePondCommand);
+
+        if (updatedPond.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        var pondResource = PondResourceFromEntityAssembler.toResourceFromEntity(updatedPond.get());
+        return ResponseEntity.ok(pondResource);
     }
 }
