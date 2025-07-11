@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class SensorData {
-    private long sensorId;
-    private double value;
+    private Long pondId;
+    private String sensorType;
+    private float value;
 }
