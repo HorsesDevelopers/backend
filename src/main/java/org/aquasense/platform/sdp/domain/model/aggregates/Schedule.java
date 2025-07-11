@@ -17,6 +17,8 @@ public class Schedule extends AuditableAbstractAggregateRoot<Schedule> {
 
   private Long pondId;
 
+  private String species;
+
   private int size;
 
   private int mass;
