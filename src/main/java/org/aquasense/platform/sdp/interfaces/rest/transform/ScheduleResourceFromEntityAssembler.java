@@ -1,6 +1,6 @@
 package org.aquasense.platform.sdp.interfaces.rest.transform;
 
-import org.aquasense.platform.sdp.domain.model.entities.Schedule;
+import org.aquasense.platform.sdp.domain.model.aggregates.Schedule;
 import org.aquasense.platform.sdp.interfaces.rest.resources.ScheduleResource;
 
 public class ScheduleResourceFromEntityAssembler {

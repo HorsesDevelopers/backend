@@ -1,6 +1,6 @@
 package org.aquasense.platform.sdp.application.internal.queryservices;
 
-import org.aquasense.platform.sdp.domain.model.entities.Schedule;
+import org.aquasense.platform.sdp.domain.model.aggregates.Schedule;
 import org.aquasense.platform.sdp.domain.model.queries.GetAllSchedulesQuery;
 import org.aquasense.platform.sdp.domain.model.queries.GetScheduleByIdQuery;
 import org.aquasense.platform.sdp.domain.services.ScheduleQueryService;

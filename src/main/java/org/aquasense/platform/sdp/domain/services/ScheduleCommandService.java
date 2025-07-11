@@ -2,7 +2,7 @@ package org.aquasense.platform.sdp.domain.services;
 
 import org.aquasense.platform.sdp.domain.model.commands.CreateScheduleCommand;
 import org.aquasense.platform.sdp.domain.model.commands.UpdateScheduleCommand;
-import org.aquasense.platform.sdp.domain.model.entities.Schedule;
+import org.aquasense.platform.sdp.domain.model.aggregates.Schedule;
 
 import java.util.Optional;
 

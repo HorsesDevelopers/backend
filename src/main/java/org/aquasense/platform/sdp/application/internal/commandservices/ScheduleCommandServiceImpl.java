@@ -2,7 +2,7 @@ package org.aquasense.platform.sdp.application.internal.commandservices;
 
 import org.aquasense.platform.sdp.domain.model.commands.CreateScheduleCommand;
 import org.aquasense.platform.sdp.domain.model.commands.UpdateScheduleCommand;
-import org.aquasense.platform.sdp.domain.model.entities.Schedule;
+import org.aquasense.platform.sdp.domain.model.aggregates.Schedule;
 import org.aquasense.platform.sdp.domain.services.ScheduleCommandService;
 import org.aquasense.platform.sdp.infrastructure.ScheduleRepository;
 import org.springframework.stereotype.Service;

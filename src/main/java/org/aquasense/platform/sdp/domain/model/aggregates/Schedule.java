@@ -1,24 +1,21 @@
-package org.aquasense.platform.sdp.domain.model.entities;
+package org.aquasense.platform.sdp.domain.model.aggregates;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.aquasense.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @Table(name="schedules")
-public class Schedule {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+public class Schedule extends AuditableAbstractAggregateRoot<Schedule> {
 
   private String name;
 
-  private String species;
+  private Long pondId;
 
   private int size;
 
