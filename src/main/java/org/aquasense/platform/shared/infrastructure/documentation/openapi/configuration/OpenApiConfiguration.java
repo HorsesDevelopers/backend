@@ -10,11 +10,16 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
 @Configuration
 public class OpenApiConfiguration {
+
+    @Value("${spring.profiles.active:dev}")
+    private String activeProfile;
+
     @Bean
     public OpenAPI infraApi() {
 
@@ -30,13 +35,22 @@ public class OpenApiConfiguration {
                 .externalDocs(new ExternalDocumentation()
                         .description("AquaSense github page")
                         .url("https://github.com/HorsesDevelopers/backend"));
-        // Add security scheme
 
-        openApi.servers(List.of(
-           new Server()
-                   .url("https://backend-production-5e9e.up.railway.app")
-                   .description("Servidor de Producción")
-        ));
+        // Configurar servidores según el entorno
+        if ("prod".equals(activeProfile)) {
+            openApi.servers(List.of(
+                    new Server()
+                            .url("https://backend-production-5e9e.up.railway.app")
+                            .description("Servidor de Producción")
+            ));
+        } else {
+            // Para entorno local u otros
+            openApi.servers(List.of(
+                    new Server()
+                            .url("http://localhost:8091")
+                            .description("Servidor Local")
+            ));
+        }
 
         final String securitySchemeName = "bearerAuth";
 

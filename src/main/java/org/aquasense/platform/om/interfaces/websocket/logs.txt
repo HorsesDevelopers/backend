@@ -1,0 +1,5 @@
+2025-07-11T02:01:37.654-05:00  INFO 4796 --- [MedicDefense Backend] [nio-8091-exec-1] i.a.s.p.BearerAuthorizationRequestFilter : Token: null
+2025-07-11T02:01:37.654-05:00  INFO 4796 --- [MedicDefense Backend] [nio-8091-exec-1] i.a.s.p.BearerAuthorizationRequestFilter : Token is not valid
+2025-07-11T02:01:37.664-05:00  INFO 4796 --- [MedicDefense Backend] [nio-8091-exec-3] i.a.s.p.BearerAuthorizationRequestFilter : Token: null
+2025-07-11T02:01:37.664-05:00  INFO 4796 --- [MedicDefense Backend] [nio-8091-exec-3] i.a.s.p.BearerAuthorizationRequestFilter : Token is not valid
+Datos recibidos del sensor: SensorData(sensorId=1, value=2.0)

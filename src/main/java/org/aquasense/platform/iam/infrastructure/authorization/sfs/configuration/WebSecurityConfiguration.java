@@ -1,5 +1,9 @@
 package org.aquasense.platform.iam.infrastructure.authorization.sfs.configuration;
 
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.aquasense.platform.iam.infrastructure.authorization.sfs.pipeline.BearerAuthorizationRequestFilter;
 import org.aquasense.platform.iam.infrastructure.hashing.bcrypt.BCryptHashingService;
 import org.aquasense.platform.iam.infrastructure.tokens.jwt.BearerTokenService;
@@ -18,7 +22,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.filter.OncePerRequestFilter;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -90,16 +96,10 @@ public class WebSecurityConfiguration {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(configurer -> configurer.configurationSource(request  -> {
-            var cors = new CorsConfiguration();
-            cors.setAllowedOrigins(List.of("*"));
-            cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-            cors.setAllowedHeaders(List.of("*"));
-            return cors;
-        }));
         http.csrf(csrfConfigurer -> csrfConfigurer.disable())
+                .cors(cors -> {}) // Elimina la duplicación de cors
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(unauthorizedRequestHandler))
-                .sessionManagement( customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(
                                 "/api/v1/authentication/**",
@@ -109,11 +109,28 @@ public class WebSecurityConfiguration {
                                 "/swagger-ui/**",
                                 "/swagger-resources/**",
                                 "/webjars/**",
-                                "/ws/**",
-                                "/ws").permitAll()
+                                "/ws/**").permitAll() // Corregido: un solo patrón para WebSocket
                         .anyRequest().authenticated());
-        http.authenticationProvider(authenticationProvider());
-        http.addFilterBefore(authorizationRequestFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        // Simplifica el filtro personalizado
+        http.addFilterBefore(
+                new OncePerRequestFilter() {
+                    @Override
+                    protected boolean shouldNotFilter(HttpServletRequest request) {
+                        String path = request.getRequestURI();
+                        return path.startsWith("/ws") ||
+                                path.startsWith("/api/v1/authentication") ||
+                                path.startsWith("/v3/api-docs") ||
+                                path.startsWith("/swagger-ui");
+                    }
+
+                    @Override
+                    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+                        authorizationRequestFilter().doFilter(request, response, filterChain);
+                    }
+                },
+                UsernamePasswordAuthenticationFilter.class
+        );
         return http.build();
 
     }
