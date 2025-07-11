@@ -32,7 +32,7 @@ public class PondRecordController {
 
 
     @PostMapping
-    @Operation(summary = "Create Pond")
+    @Operation(summary = "Create PondRecord")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Pond Created"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),

@@ -48,7 +48,6 @@ public class PondRecordCommandServiceImpl implements PondRecordCommandService {
             pondRecord.addValue(recordValue);
 
             pondRepository.save(pond);
-            pondRecordRepository.save(pondRecord);
             return Optional.of(pondRecord);
         } else {
             sensorId = externalAROMService.getSensorIdByPondIdAndType(command.pondId(), command.recordType());

@@ -1,5 +1,6 @@
 package org.aquasense.platform.om.domain.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,7 @@ public class PondRecord {
 
     @ManyToOne
     @JoinColumn(name = "pond_id")
+    @JsonBackReference
     private Pond pond;
 
     @ElementCollection

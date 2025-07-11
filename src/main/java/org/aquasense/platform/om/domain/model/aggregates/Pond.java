@@ -1,5 +1,6 @@
 package org.aquasense.platform.om.domain.model.aggregates;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -19,6 +20,7 @@ import java.util.List;
 public class Pond extends AuditableAbstractAggregateRoot<Pond> {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<PondRecord> pondRecords = new ArrayList<>();
 
     String ubication;

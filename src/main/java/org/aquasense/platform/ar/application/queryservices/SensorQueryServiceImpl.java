@@ -34,7 +34,8 @@ public class SensorQueryServiceImpl implements SensorQueryService {
     @Override
     public long handle(GetSensorIdByPondIdAndTypeQuery query) {
         var type = SensorType.valueOf(query.sensorType());
-        return sensorRepository.getSensorByPondIdAndType(query.pondId(), type);
+        var sensor = sensorRepository.getSensorByPondIdAndType(query.pondId(), type);
+        return sensor.get().getId();
     }
 
     @Override

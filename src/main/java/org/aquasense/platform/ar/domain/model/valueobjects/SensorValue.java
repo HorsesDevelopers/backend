@@ -16,9 +16,9 @@ public class SensorValue {
     public SensorValue(String value, SensorType type) {
         this.value = value;
         switch (type) {
-            case TEMPERATURE -> this.unit = "°C";
-            case PH -> this.unit = "pH";
-            case TURBIDITY -> this.unit = "NTU";
+            case Temp -> this.unit = "°C";
+            case pH -> this.unit = "pH";
+            case Turbidity -> this.unit = "NTU";
         }
     }
 }
