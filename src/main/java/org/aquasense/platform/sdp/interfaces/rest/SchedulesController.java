@@ -1,5 +1,6 @@
 package org.aquasense.platform.sdp.interfaces.rest;
 
+import org.aquasense.platform.sdp.domain.model.commands.DeleteScheduleCommand;
 import org.aquasense.platform.sdp.domain.model.queries.GetAllSchedulesQuery;
 import org.aquasense.platform.sdp.domain.model.queries.GetScheduleByIdQuery;
 import org.aquasense.platform.sdp.domain.services.ScheduleCommandService;
@@ -61,6 +62,13 @@ public class SchedulesController {
             return ResponseEntity.badRequest().build();
         var scheduleResource = ScheduleResourceFromEntityAssembler.toResourceFromEntity(schedule.get());
         return ResponseEntity.ok(scheduleResource);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteScheduleById(@PathVariable Long id){
+        var deleteCourseCommand = new DeleteScheduleCommand(id);
+        scheduleCommandService.handle(deleteCourseCommand);
+        return ResponseEntity.ok("Schedule with id " + id + " deleted successfully.");
     }
 
 //    @PutMapping("/{id}")
